@@ -231,31 +231,39 @@ namespace MudBlazor
                 // conversion error
                 if (ConversionError)
                     errors.Add(ConversionErrorMessage);
-                // validation errors
-                if (Validation is ValidationAttribute)
-                    ValidateWithAttribute(Validation as ValidationAttribute, _value, errors);
-                else if (Validation is Func<T, bool>)
-                    ValidateWithFunc(Validation as Func<T, bool>, _value, errors);
-                else if (Validation is Func<T, string>)
-                    ValidateWithFunc(Validation as Func<T, string>, _value, errors);
-                else if (Validation is Func<T, IEnumerable<string>>)
-                    ValidateWithFunc(Validation as Func<T, IEnumerable<string>>, _value, errors);
-                else if (Validation is Func<object, string, IEnumerable<string>>)
-                    ValidateModelWithFullPathOfMember(Validation as Func<object, string, IEnumerable<string>>, errors);
-                else
+
+                if (Validation != null)
                 {
-                    var value = _value;
+                    // validation errors
+                    if (Validation is ValidationAttribute)
+                        ValidateWithAttribute(Validation as ValidationAttribute, _value, errors);
+                    else if (Validation is Func<T, bool>)
+                        ValidateWithFunc(Validation as Func<T, bool>, _value, errors);
+                    else if (Validation is Func<T, string>)
+                        ValidateWithFunc(Validation as Func<T, string>, _value, errors);
+                    else if (Validation is Func<T, IEnumerable<string>>)
+                        ValidateWithFunc(Validation as Func<T, IEnumerable<string>>, _value, errors);
+                    else if (Validation is Func<object, string, IEnumerable<string>>)
+                        ValidateModelWithFullPathOfMember(Validation as Func<object, string, IEnumerable<string>>, errors);
+                    else
+                    {
+                        var value = _value;
 
-                    if (Validation is Func<T, Task<bool>>)
-                        await ValidateWithFunc(Validation as Func<T, Task<bool>>, _value, errors);
-                    else if (Validation is Func<T, Task<string>>)
-                        await ValidateWithFunc(Validation as Func<T, Task<string>>, _value, errors);
-                    else if (Validation is Func<T, Task<IEnumerable<string>>>)
-                        await ValidateWithFunc(Validation as Func<T, Task<IEnumerable<string>>>, _value, errors);
-                    else if (Validation is Func<object, string, Task<IEnumerable<string>>>)
-                        await ValidateModelWithFullPathOfMember(Validation as Func<object, string, Task<IEnumerable<string>>>, errors);
+                        if (Validation is Func<T, Task<bool>>)
+                            await ValidateWithFunc(Validation as Func<T, Task<bool>>, _value, errors);
+                        else if (Validation is Func<T, Task<string>>)
+                            await ValidateWithFunc(Validation as Func<T, Task<string>>, _value, errors);
+                        else if (Validation is Func<T, Task<IEnumerable<string>>>)
+                            await ValidateWithFunc(Validation as Func<T, Task<IEnumerable<string>>>, _value, errors);
+                        else if (Validation is Func<object, string, Task<IEnumerable<string>>>)
+                            await ValidateModelWithFullPathOfMember(Validation as Func<object, string, Task<IEnumerable<string>>>, errors);
+                        else
+                        {
+                            throw new ArgumentException("Validation property has an invalidation function with unknown signature");
+                        }
 
-                    changed = !EqualityComparer<T>.Default.Equals(value, _value);
+                        changed = !EqualityComparer<T>.Default.Equals(value, _value);
+                    }
                 }
 
                 // Run each validation attributes of the property targeted with `For`
@@ -284,6 +292,14 @@ namespace MudBlazor
                     ValidationErrors = errors;
                     Error = errors.Count > 0;
                     ErrorText = errors.FirstOrDefault();
+
+                    // If we have a valid value, consider this touched regardless of user interaction.
+                    // This enables default values in form components to make the form valid.
+                    if (!Touched && !Error && HasValue(_value))
+                    {
+                        Touched = true;
+                    }
+
                     Form?.Update(this);
                     StateHasChanged();
                 }

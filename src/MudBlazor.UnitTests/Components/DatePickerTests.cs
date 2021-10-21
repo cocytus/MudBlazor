@@ -160,6 +160,8 @@ namespace MudBlazor.UnitTests.Components
                 .Where(x => x.TrimmedText().Equals("23")).First().Click();
             comp.WaitForAssertion(() => comp.FindAll("div.mud-picker-open").Count.Should().Be(0), TimeSpan.FromSeconds(5));
             comp.Instance.Date.Should().NotBeNull();
+            var theForm = comp.FindComponent<MudForm>();
+            theForm.Instance.IsValid.Should().BeTrue();
         }
 
         [Test]
