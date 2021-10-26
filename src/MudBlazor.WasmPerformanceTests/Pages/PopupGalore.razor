@@ -1,0 +1,48 @@
+﻿@page "/popuptest"
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Switcharoo">Create new set</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Clear">Clear</MudButton>
+
+@foreach (var el in Items)
+{
+    <MudExpansionPanels>
+        <MudExpansionPanel>
+            <TitleContent>
+                I'm @el.Title. Chippys:
+                <div @onclick:stopPropagation>
+                    @foreach (var tip in el.SubElems)
+                {
+                    <MudTooltip>
+                        <TooltipContent>
+                            <div>
+                                @tip.SomeData1
+                            </div>
+                            <div>
+                                @tip.SomeData2
+                            </div>
+                        </TooltipContent>
+                        <ChildContent>
+                            <MudMenu>
+                                <ActivatorContent>
+                                    <MudChip Text="@tip.SomeData1" Color="@(tip.IsEven ? Color.Primary : Color.Secondary)" />
+                                </ActivatorContent>
+                                <ChildContent>
+                                    <MudMenuItem>Hur bra som helst</MudMenuItem>
+                                    <MudMenuItem>Hur lett som helst fan</MudMenuItem>
+                                </ChildContent>
+                            </MudMenu>
+                        </ChildContent>
+                    </MudTooltip>
+                }
+
+                <MudButton>Button1</MudButton>
+                <MudButton>Button2</MudButton>
+                <MudButton>Button3</MudButton>
+            </div>
+        </TitleContent>
+        <ChildContent>
+            @el.Body
+        </ChildContent>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+}
