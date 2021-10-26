@@ -395,9 +395,11 @@ class MudPopover {
     }
 
     disconnect(id) {
-        if (this.map[id]) {
+        console.log("OO3" + id + " type " + typeof id);
 
-            const item = this.map[id]
+        const item = this.map[id]
+
+        if (item) {
             item.mutationObserver.disconnect();
             item.resizeObserver.disconnect();
             item.contentNodeObserver.disconnect();
