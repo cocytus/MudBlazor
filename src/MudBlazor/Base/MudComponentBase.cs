@@ -20,7 +20,11 @@ namespace MudBlazor
         /// </summary>
         [Parameter] public object Tag { get; set; }
 
-        [Parameter]
+        /// <summary>
+        /// UserAttributes carries all attributes you add to the component that don't match any of its parameters.
+        /// They will be splatted onto the underlying HTML tag.
+        /// </summary>
+        [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> UserAttributes { get; set; } = new Dictionary<string, object>();
     }
 }

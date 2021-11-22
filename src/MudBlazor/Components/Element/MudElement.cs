@@ -51,6 +51,7 @@ namespace MudBlazor
                 if (attribute.Value != null)
                     builder.AddAttribute(1, attribute.Key, attribute.Value);
             }
+
             //Class
             builder.AddAttribute(2, "class", Class);
             //Style
@@ -60,7 +61,7 @@ namespace MudBlazor
             // the order matters. This has to be before content is added
             if (HtmlTag == "button")
             {
-                builder.AddEventStopPropagationAttribute(5, "onclick", true);
+                builder.AddAttribute(5, "onclick", onclick);
             }
 
             //Reference capture

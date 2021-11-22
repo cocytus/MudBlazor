@@ -1,13 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
 <MudLayout>
-    <MudAppBar Elevation="1" Style="background-image: linear-gradient(119deg, rgb(22, 53, 86) 0%, rgb(0, 94, 105) 56%, rgb(0, 194, 194) 100%);">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => Opened = !Opened)" />
-        <MudSpacer />
-    </MudAppBar>
-    <MudDrawer @bind-Open="Opened" ClipMode="DrawerClipMode.Always" Elevation="2">
-        <NavMenu />
-    </MudDrawer>
     <MudMainContent>
         @Body
     </MudMainContent>
@@ -15,5 +8,4 @@
 
 @code
 {
-        bool Opened = true;
 }
