@@ -6,13 +6,7 @@
             HtmlTag="@HtmlTag"
             Class="@Classname" 
             Style="@Style"
-            @attributes="UserAttributes"
-            @onclick="OnClickHandler"
-            type="@ButtonType.ToDescriptionString()"
-            href="@Link" 
-            target="@Target"
-            rel="@(Target=="_blank"?"noopener":null)"
-            disabled="@Disabled">
+            @onclick="OnClickHandler">
     <span class="mud-button-label">
         @if (!string.IsNullOrWhiteSpace(StartIcon))
         {

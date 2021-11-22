@@ -19,6 +19,9 @@ namespace MudBlazor
         /// The HTML element that will be rendered in the root by the component
         /// </summary>
         [Parameter] public string HtmlTag { get; set; } = "span";
+
+        [Parameter] public EventCallback<MouseEventArgs> onclick { get; set; }
+
         /// <summary>
         /// The ElementReference to bind to.
         /// Use like @bind-Ref="myRef"
@@ -56,7 +59,9 @@ namespace MudBlazor
             // StopPropagation
             // the order matters. This has to be before content is added
             if (HtmlTag == "button")
+            {
                 builder.AddEventStopPropagationAttribute(5, "onclick", true);
+            }
 
             //Reference capture
             if (Ref != null)

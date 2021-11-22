@@ -17,7 +17,7 @@ namespace MudBlazor.WasmPerformanceTests.Pages
         private async Task Switcharoo()
         {
             await Task.Delay(10);
-            Items = Enumerable.Range(0, 1).Select(r => new Elem()).ToArray();
+            Items = Enumerable.Range(0, 2000).Select(r => new Elem()).ToArray();
         }
 
         private void Clear()
